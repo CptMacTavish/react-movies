@@ -1,0 +1,40 @@
+.searchbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: transparent;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  position: relative;
+}
+
+.find-film {
+  color: #ddd;
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.search-btn {
+  position: absolute;
+  top: 1rem;
+  right: 0.5rem;
+}
+
+.radio-label:not(:last-child) {
+  margin-right: 2rem;
+}
+
+.radio-text {
+  color: #ddd;
+}
+
