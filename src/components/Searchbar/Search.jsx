@@ -1,80 +1,80 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-class Search extends React.Component {
-  state = {
-    search: '',
-    type: 'all',
-  };
+const Search = (props) => {
+  const {
+    searchMovies = Function.prototype,
+  } = props;
 
-  handlekey = (event) => {
+  const [search, setSearch] = useState('');
+  const [type, setType] = useState('all');
+
+  const handlekey = (event) => {
     if (event.key === 'Enter') {
-      this.props.searchMovies(this.state.search, this.state.type);
+      searchMovies(search, type);
     }
   };
 
-  handlefilter = (event) => {
-    this.setState(() => ({ type: event.target.dataset.type }), () => {
-        this.props.searchMovies(this.state.search, this.state.type);
-    });
+  const handlefilter = (event) => {
+
+    setType(event.target.dataset.type);
+    searchMovies(search, event.target.dataset.type);
+
   };
 
-  render() {
-    const { search } = this.state;
 
-    return (
-      <div className="searchbar">
-        <input
-          className="find-film"
-          placeholder="Let`s find our favorite movie 🔥"
-          type="search"
-          value={search}
-          onChange={(e) => this.setState({ search: e.target.value })}
-          onKeyDown={this.handlekey}
-        />
-        <button
-          className="waves-effect waves-light btn search-btn"
-          onClick={() => this.props.searchMovies(this.state.search, this.state.type)}
-        >
-          Find!
-        </button>
-        <div className="radios">
-          <label className="radio-label">
-            <input
-              className="with-gap"
-              name="type"
-              type="radio"
-              data-type="all"
-              onChange={this.handlefilter}
-              checked={this.state.type === "all"}
-            />
-            <span className="radio-text">All</span>
-          </label>
-          <label className="radio-label">
-            <input
-              className="with-gap"
-              name="type"
-              type="radio"
-              data-type="movie"
-              onChange={this.handlefilter}
-              checked={this.state.type === "movie"}
-            />
-            <span className="radio-text">Movies only</span>
-          </label>
-          <label className="radio-label">
-            <input
-              className="with-gap"
-              name="type"
-              type="radio"
-              data-type="series"
-              onChange={this.handlefilter}
-              checked={this.state.type === "series"}
-            />
-            <span className="radio-text">Series only</span>
-          </label>
-        </div>
+  return (
+    <div className="searchbar">
+      <input
+        className="find-film"
+        placeholder="Let`s find our favorite movie 🔥"
+        type="search"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        onKeyDown={handlekey}
+      />
+      <button
+        className="waves-effect waves-light btn search-btn"
+        onClick={() => searchMovies(search, type)}
+      >
+        Find!
+      </button>
+      <div className="radios">
+        <label className="radio-label">
+          <input
+            className="with-gap"
+            name="type"
+            type="radio"
+            data-type="all"
+            onChange={handlefilter}
+            checked={type === "all"}
+          />
+          <span className="radio-text">All</span>
+        </label>
+        <label className="radio-label">
+          <input
+            className="with-gap"
+            name="type"
+            type="radio"
+            data-type="movie"
+            onChange={handlefilter}
+            checked={type === "movie"}
+          />
+          <span className="radio-text">Movies only</span>
+        </label>
+        <label className="radio-label">
+          <input
+            className="with-gap"
+            name="type"
+            type="radio"
+            data-type="series"
+            onChange={handlefilter}
+            checked={type === "series"}
+          />
+          <span classNam e="radio-text">Series only</span>
+        </label>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export { Search };

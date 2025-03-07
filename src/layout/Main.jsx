@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {Movies} from "../components/Movies.jsx";
 import {Preloader} from "../components/Preloader/Preloader.jsx"
 import {Search} from "../components/Searchbar/Search.jsx"
@@ -6,41 +6,43 @@ import {Search} from "../components/Searchbar/Search.jsx"
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-class Main extends React.Component {
+const Main = () => {
+    const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState([]);
 
-    state = {
-        movies: [],
-        loading: true,
-    }
-
-    componentDidMount() {
-        fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=expendables`)
-            .then(response => response.json())
-            .then(data => this.setState({movies: data.Search, loading: false}))
-    }
-
-    searchMovies = (str, type = 'all') => {
-        this.setState({loading: true});
+    const searchMovies = (str, type = 'all') => {
+        setLoading(true);
         fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${str}${
             type !== 'all' ? `&type=${type}`: ""}`)
             .then(response => response.json())
-            .then(data => this.setState({movies: data.Search, loading: false}))
+            .then(data => {
+                setMovies(data.Search);
+                setLoading(false);
+            })
             .catch((err) => {
                 console.error(err);
-                this.setState({ loading: false })
+                setLoading(false);
             })
     }
 
-    render() {
-        const {movies, loading} = this.state;
+    useEffect(() => {
+        fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=expendables`)
+        .then(response => response.json())
+        .then(data => {setMovies(data.Search);
+                       setLoading(false)})
+        .catch((err) => {
+            console.error(err);
+            setLoading(false);
+        })
+    }, []);
+
     return <main className=" content">
-        <Search searchMovies={this.searchMovies}/>
+        <Search searchMovies={searchMovies}/>
         {
             loading ? <Preloader /> : <Movies movies={movies}/>
         }
         
     </main>
-    } 
 }
 
 export {Main}
